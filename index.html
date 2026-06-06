@@ -2039,16 +2039,19 @@ window.addEventListener("scroll", () => {
 
   /* ---- grand preloader ---- */
   (function preloaderInit(){
+    if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+    window.scrollTo(0, 0);
     var pl = document.getElementById('preloader');
     if (!pl) { document.body.classList.remove('preloading'); return; }
     var fill = document.getElementById('plFill'), pct = document.getElementById('plPct');
     var start = performance.now(), MIN = 2000, done = false, loaded = false;
-    window.addEventListener('load', function(){ loaded = true; });
+    window.addEventListener('load', function(){ loaded = true; if (!done) window.scrollTo(0, 0); });
     function finish(){
       if (done) return; done = true;
       if (fill) fill.style.width = '100%';
       if (pct) pct.textContent = '100';
       setTimeout(function(){
+        window.scrollTo(0, 0);
         pl.classList.add('done');
         document.body.classList.remove('preloading');
         setTimeout(function(){ pl.style.display = 'none'; }, 950);
