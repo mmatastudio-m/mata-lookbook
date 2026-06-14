@@ -1005,6 +1005,17 @@ body.preloading { overflow: hidden; }
 .cta-chip { width: 18px; height: 18px; border-radius: 5px; flex: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.14); transition: background-color .9s ease; }
 .cta-arr { display: inline-block; transition: transform .25s var(--ease); }
 .fab-card--featured:hover .cta-arr { transform: translateX(3px); }
+
+/* ===== mobile: size chart fits / scrolls (no clipped columns) ===== */
+@media (max-width: 600px){
+  .modal { padding: 14px; }
+  .modal-inner { margin: 16px auto; }
+  .modal-info { padding: 22px 16px; }
+  .size-block { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .size-table { font-size: 12px; min-width: 300px; }
+  .size-table th, .size-table td { padding: 9px 5px; }
+  .size-table th:first-child, .size-table td:first-child { text-align: left; white-space: nowrap; }
+}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
