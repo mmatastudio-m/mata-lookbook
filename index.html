@@ -1021,6 +1021,51 @@ body.preloading { overflow: hidden; }
   .size-table th, .size-table td { padding: 9px 5px; }
   .size-table th:first-child, .size-table td:first-child { text-align: left; white-space: nowrap; }
 }
+
+/* ===== SERVICE DETAIL MODAL ===== */
+.serv-modal { max-width: 940px; padding: 0; position: relative; }
+.serv-modal .modal-close { position: absolute; top: 22px; right: 22px; z-index: 6; }
+.sm-hero { position: relative; padding: 66px 56px 42px; border-bottom: 1px solid var(--hair); overflow: hidden; }
+.sm-ghost { position: absolute; top: -24px; right: 22px; font-size: 210px; font-weight: 700; line-height: 1; color: var(--paper-2); letter-spacing: -0.05em; pointer-events: none; z-index: 0; font-variant-numeric: tabular-nums; }
+.sm-hero > *:not(.sm-ghost) { position: relative; z-index: 1; }
+.sm-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.32em; text-transform: uppercase; color: var(--soft); margin-bottom: 20px; }
+.sm-title { font-size: clamp(34px, 5.2vw, 58px); font-weight: 700; letter-spacing: -0.035em; line-height: 0.98; margin: 0 0 10px; color: var(--ink); }
+.sm-title-th { font-size: 18px; font-weight: 600; color: var(--soft-2); margin-bottom: 24px; }
+.sm-lead { font-size: clamp(16px, 1.5vw, 19px); line-height: 1.62; color: var(--ink); max-width: 600px; margin: 0 0 24px; }
+.sm-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.sm-tags span { font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--soft); border: 1px solid var(--hair); border-radius: 100px; padding: 6px 14px; }
+.sm-section { padding: 42px 56px; border-bottom: 1px solid var(--hair); }
+.sm-sec-label { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink); margin-bottom: 28px; display: flex; align-items: baseline; gap: 12px; }
+.sm-sec-label span { font-size: 10px; font-weight: 600; letter-spacing: 0.18em; color: var(--soft); text-transform: uppercase; }
+.sm-includes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--hair); border: 1px solid var(--hair); border-radius: 14px; overflow: hidden; }
+.sm-inc { background: var(--paper); padding: 22px 24px; display: flex; gap: 15px; transition: background .3s ease; }
+.sm-inc:hover { background: #fff; }
+.sm-inc-i { font-size: 11px; font-weight: 700; color: var(--soft); letter-spacing: 0.05em; padding-top: 2px; min-width: 20px; font-variant-numeric: tabular-nums; }
+.sm-inc-b { flex: 1; }
+.sm-inc-t { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 5px; line-height: 1.3; }
+.sm-inc-d { font-size: 13px; line-height: 1.55; color: var(--soft-2); }
+.sm-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.sm-step { padding-top: 18px; border-top: 2px solid var(--ink); }
+.sm-step-n { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; color: var(--soft); margin-bottom: 10px; }
+.sm-step-t { font-size: 14px; line-height: 1.55; color: var(--ink); }
+.sm-foot { padding: 38px 56px 46px; display: flex; align-items: center; justify-content: space-between; gap: 26px; flex-wrap: wrap; }
+.sm-note { font-size: 13px; color: var(--soft); margin: 0; max-width: 400px; line-height: 1.55; }
+.sm-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: var(--paper); font-size: 14px; font-weight: 600; letter-spacing: 0.01em; padding: 16px 28px; border-radius: 100px; text-decoration: none; transition: gap .3s var(--ease); white-space: nowrap; }
+.sm-cta span { transition: transform .3s var(--ease); }
+.sm-cta:hover { gap: 14px; }
+.sm-cta:hover span { transform: translateX(3px); }
+@media (max-width: 640px) {
+  .serv-modal { max-width: none; }
+  .sm-hero { padding: 56px 22px 32px; }
+  .sm-ghost { font-size: 124px; top: -8px; right: 10px; }
+  .sm-section { padding: 32px 22px; }
+  .sm-sec-label { margin-bottom: 22px; }
+  .sm-includes { grid-template-columns: 1fr; }
+  .sm-steps { grid-template-columns: 1fr; gap: 16px; }
+  .sm-foot { padding: 28px 22px 36px; flex-direction: column; align-items: stretch; }
+  .sm-cta { justify-content: center; }
+}
+
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1337,6 +1382,33 @@ body.preloading { overflow: hidden; }
   <div class="pwl-thumbs" id="pwlThumbs"></div>
 </div>
 
+<!-- SERVICE DETAIL MODAL -->
+<div class="modal" id="servModal">
+  <div class="modal-inner serv-modal">
+    <button class="modal-close" id="servClose" aria-label="Close">✕</button>
+    <div class="sm-hero">
+      <div class="sm-ghost" id="smGhost"></div>
+      <div class="sm-eyebrow" id="smEyebrow"></div>
+      <h2 class="sm-title" id="smTitle"></h2>
+      <div class="sm-title-th" id="smTitleTh"></div>
+      <p class="sm-lead" id="smLead"></p>
+      <div class="sm-tags" id="smTags"></div>
+    </div>
+    <div class="sm-section">
+      <div class="sm-sec-label">สิ่งที่เราดูแลให้ <span>What&#39;s included</span></div>
+      <div class="sm-includes" id="smIncludes"></div>
+    </div>
+    <div class="sm-section">
+      <div class="sm-sec-label">ขั้นตอนการทำงาน <span>Process</span></div>
+      <div class="sm-steps" id="smSteps"></div>
+    </div>
+    <div class="sm-foot">
+      <p class="sm-note" id="smNote"></p>
+      <a class="sm-cta" href="#contact" id="smCta">เริ่มคุยโปรเจกต์ <span>→</span></a>
+    </div>
+  </div>
+</div>
+
 <div class="fab-viewer" id="fabViewer" aria-hidden="true">
   <div class="fv-top">
     <div>
@@ -1503,6 +1575,7 @@ SERVICES.forEach((s, i) => {
     <p class="desc">${s.desc}</p>
     <div class="tags">${s.tags.join(" · ")}</div>
   `;
+  card.addEventListener("click", () => openService(s));
   servGrid.appendChild(card);
 });
 
@@ -1605,6 +1678,106 @@ function closePattern() {
   document.getElementById("patModal").classList.remove("open");
   document.body.style.overflow = "";
 }
+
+/* ============ SERVICE DETAIL ============ */
+const SERVICE_DETAIL = {
+  "01": {
+    lead: "งานพิมพ์ลายครบทุกเทคนิคในโรงงานของเราเอง คุมคุณภาพได้เองทุกขั้นตอน ตั้งแต่เตรียมไฟล์จนถึงพิมพ์จริง",
+    includes: [
+      { t:"ซิลค์สกรีน", d:"สีคมชัด ทนทาน เหมาะกับงานจำนวนมาก" },
+      { t:"พิมพ์ดิจิทัล DTG", d:"ไล่เฉดสีเต็มภาพ ไม่จำกัดจำนวนสี" },
+      { t:"Discharge / สกรีนนุ่ม", d:"สีซึมเข้าเนื้อผ้า สัมผัสนุ่มเบา" },
+      { t:"งานปัก Embroidery", d:"เพิ่มมิติและความพรีเมียมให้โลโก้" }
+    ],
+    steps: ["รับไฟล์ลายและเลือกเทคนิคที่เหมาะกับงาน","ทำตัวอย่างให้ดูสีและตำแหน่งก่อนผลิตจริง","พิมพ์จริงพร้อมตรวจคุณภาพทุกตัว"],
+    note: "เลือกเทคนิคให้เหมาะกับดีไซน์ เนื้อผ้า และจำนวนที่ต้องการ"
+  },
+  "02": {
+    lead: "ออกแบบกราฟิกและคุมภาพรวมของงาน ตั้งแต่ไอเดียบรรทัดเดียวจนถึงไฟล์ที่พร้อมส่งพิมพ์",
+    includes: [
+      { t:"ออกแบบกราฟิกลายเสื้อ", d:"คอนเซ็ปต์ ภาพประกอบ และองค์ประกอบของลาย" },
+      { t:"จัดเลย์เอาต์ & ตัวอักษร", d:"วางตำแหน่งและเลือกฟอนต์บนทรงเสื้อจริง" },
+      { t:"เลือกโทนสี & คู่สี", d:"ให้เข้ากับเนื้อผ้าและเทคนิคการพิมพ์" },
+      { t:"เตรียมไฟล์พร้อมผลิต", d:"แยกสีและความละเอียดถูกต้องสำหรับโรงงาน" }
+    ],
+    steps: ["คุยคอนเซ็ปต์และเก็บโจทย์","ร่างแบบและปรับจนลงตัว","ส่งมอบไฟล์พร้อมพิมพ์"],
+    note: "ออกแบบใหม่ทั้งหมด หรือพัฒนาต่อจากไอเดียที่มีอยู่ก็ได้"
+  },
+  "03": {
+    lead: "เปลี่ยนไอเดียให้เป็นแบรนด์ที่ลูกค้าจดจำได้ ตั้งแต่ชื่อ โลโก้ ไปจนถึงเรื่องราว",
+    includes: [
+      { t:"โลโก้ & อัตลักษณ์", d:"ระบบภาพที่ใช้งานได้จริงในทุกช่องทาง" },
+      { t:"ตั้งชื่อแบรนด์", d:"ชื่อและคอนเซ็ปต์ที่สื่อตัวตน" },
+      { t:"โทนสี ฟอนต์ & แนวภาพ", d:"กำหนดสไตล์ให้ไปในทิศทางเดียวกัน" },
+      { t:"เรื่องราว & น้ำเสียง", d:"วางคาแรกเตอร์การสื่อสารของแบรนด์" }
+    ],
+    steps: ["เก็บโจทย์และค้นหาทิศทาง","ออกแบบและวางระบบอัตลักษณ์","ส่งมอบไกด์ไลน์การใช้งาน"],
+    note: "เหมาะกับแบรนด์เปิดใหม่ หรือแบรนด์ที่อยากรีเฟรชภาพลักษณ์"
+  },
+  "04": {
+    lead: "ทำแพทเทิร์นและทรงเฉพาะนอกเหนือจาก 9 แบบมาตรฐาน พร้อมส่งมอบเอกสารสเปกการผลิตครบชุด",
+    includes: [
+      { t:"พัฒนาแพทเทิร์น & ทรงเฉพาะ", d:"ออกแบบทรงตามดีไซน์ที่ต้องการ" },
+      { t:"ตัดตัวอย่าง (Sample)", d:"ลองทรงจริงก่อนเข้าผลิต" },
+      { t:"ปรับฟิต & สัดส่วน", d:"แก้ทรงจนได้สัดส่วนที่พอใจ" },
+      { t:"จัดทำ Tech Pack", d:"เอกสารสเปกครบสำหรับโรงงาน" }
+    ],
+    steps: ["คุยแบบและสัดส่วนที่ต้องการ","ทำแพทเทิร์นและตัดตัวอย่าง","ปรับแก้และส่งมอบสเปกการผลิต"],
+    note: "ต่อยอดจากแบบที่มีอยู่ หรือเริ่มจากศูนย์ก็ได้"
+  },
+  "05": {
+    lead: "กำกับศิลป์การถ่ายภาพ จัดสไตล์ และคัดนายแบบนางแบบ เพื่อพาคอลเลกชันของคุณออกสู่สายตาผู้คน",
+    includes: [
+      { t:"กำกับศิลป์ (Art Direction)", d:"คุมโทนและคอนเซ็ปต์ของภาพ" },
+      { t:"จัดสไตล์ (Styling)", d:"แมตช์ลุค เสื้อผ้า และพร็อพ" },
+      { t:"คัดนายแบบนางแบบ (Casting)", d:"เลือกจากแคสต์ของเราเอง" },
+      { t:"คุมคิวถ่าย & หน้างาน", d:"ดูแลตั้งแต่เตรียมงานจนถ่ายเสร็จ" }
+    ],
+    steps: ["วางคอนเซ็ปต์และมู้ดบอร์ด","เตรียมแคสต์ สไตล์ และโลเคชัน","ถ่ายทำและคัดเลือกภาพ"],
+    note: "ได้ภาพชุดพร้อมใช้สำหรับเว็บ โซเชียล และแคมเปญ"
+  },
+  "06": {
+    lead: "รายละเอียดเล็กๆ ที่ทำให้สินค้าดูสมบูรณ์ ทั้งป้าย แท็ก และแพ็กเกจจิ้ง",
+    includes: [
+      { t:"ป้ายทอ (Woven)", d:"งานพรีเมียมคงทน สัมผัสดี" },
+      { t:"ป้ายรีดความร้อน (Heat-press)", d:"นุ่ม เรียบ ไร้รอยต่อ" },
+      { t:"แท็กพิมพ์ & ป้ายหนัง", d:"เพิ่มคาแรกเตอร์ให้แบรนด์" },
+      { t:"แพ็กเกจจิ้ง", d:"ห่อหุ้มและถุงสำหรับส่งมอบ" }
+    ],
+    steps: ["เลือกชนิดป้ายและวัสดุ","ออกแบบและทำตัวอย่าง","ผลิตจริงพร้อมตรวจงาน"],
+    note: "ออกแบบให้เข้าชุดกับเสื้อและแบรนด์ของคุณ"
+  }
+};
+
+function openService(s) {
+  const d = SERVICE_DETAIL[s.num] || {};
+  document.getElementById("smGhost").textContent = s.num;
+  document.getElementById("smEyebrow").textContent = "Service \u00b7 " + s.num;
+  document.getElementById("smTitle").textContent = s.title;
+  document.getElementById("smTitleTh").textContent = s.titleTh || "";
+  document.getElementById("smLead").textContent = d.lead || s.desc || "";
+  document.getElementById("smTags").innerHTML = (s.tags || []).map(function(t){ return "<span>"+t+"</span>"; }).join("");
+  document.getElementById("smIncludes").innerHTML = (d.includes || []).map(function(it,i){
+    return '<div class="sm-inc"><div class="sm-inc-i">'+("0"+(i+1)).slice(-2)+'</div><div class="sm-inc-b"><div class="sm-inc-t">'+it.t+'</div><div class="sm-inc-d">'+it.d+'</div></div></div>';
+  }).join("");
+  document.getElementById("smSteps").innerHTML = (d.steps || []).map(function(st,i){
+    return '<div class="sm-step"><div class="sm-step-n">STEP '+(i+1)+'</div><div class="sm-step-t">'+st+'</div></div>';
+  }).join("");
+  document.getElementById("smNote").textContent = d.note || "";
+  const modal = document.getElementById("servModal");
+  modal.scrollTop = 0;
+  modal.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeService() {
+  document.getElementById("servModal").classList.remove("open");
+  document.body.style.overflow = "";
+}
+document.getElementById("servClose").addEventListener("click", closeService);
+document.getElementById("servModal").addEventListener("click", function(e){ if (e.target.id === "servModal") closeService(); });
+document.getElementById("smCta").addEventListener("click", closeService);
+document.addEventListener("keydown", function(e){ if (e.key === "Escape" && document.getElementById("servModal").classList.contains("open")) closeService(); });
+
 
 /* ============ FABRICS ============ */
 const fabricsGrid = document.getElementById("fabricsGrid");
